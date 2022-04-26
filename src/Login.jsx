@@ -12,7 +12,7 @@ export default class Login extends React.Component {
     };
   }
 
-  handleClick = () => {
+  click = () => {
     const { history } = this.props;
     const { inputName } = this.state;
     const user = {
@@ -25,7 +25,7 @@ export default class Login extends React.Component {
     });
   }
 
-  isButtonDisabled = () => {
+  buttonDisabled = () => {
     const { inputName } = this.state;
     console.log(inputName.length);
     return (inputName.length > 1
@@ -35,14 +35,17 @@ export default class Login extends React.Component {
 
   onInputChange = ({ target }) => {
     const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ [name]: value });
-
-    this.isButtonDisabled();
+    const valor = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({ [name]: valor });
+    this.buttonDisabled();
   }
 
   render() {
-    const { inputName, isDisabled, loading } = this.state;
+    const {
+      inputName,
+      isDisabled,
+      loading,
+    } = this.state;
     return (
       <div data-testid="page-login">
         <label htmlFor="input-name">
@@ -60,11 +63,10 @@ export default class Login extends React.Component {
         <button
           type="button"
           data-testid="login-submit-button"
-          onClick={ this.handleClick }
+          onClick={ this.click }
           disabled={ isDisabled }
         >
           Entrar
-
         </button>
         { loading && <p>Carregando...</p> }
       </div>
