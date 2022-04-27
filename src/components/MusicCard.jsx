@@ -8,11 +8,11 @@ export default class MusicCard extends React.Component {
       previewUrl,
       changeClick,
       trackId,
-      favMus,
-      musica,
+      fSongs,
+      song,
     } = this.props;
 
-    const favoritList = favMus.some((musicas) => musicas.trackId === trackId);
+    const favoritList = fSongs.some((songs) => songs.trackId === trackId);
 
     return (
       <div>
@@ -29,7 +29,7 @@ export default class MusicCard extends React.Component {
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             id="input-fav"
-            onChange={ () => changeClick(musica) }
+            onChange={ () => changeClick(song) }
             checked={ favoritList }
           />
         </label>
@@ -43,6 +43,6 @@ MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   changeClick: PropTypes.func.isRequired,
   trackId: PropTypes.number.isRequired,
-  favMus: PropTypes.string.isRequired,
-  musica: PropTypes.objectOf(PropTypes.shape()).isRequired,
+  fSongs: PropTypes.string.isRequired,
+  song: PropTypes.objectOf(PropTypes.shape()).isRequired,
 };

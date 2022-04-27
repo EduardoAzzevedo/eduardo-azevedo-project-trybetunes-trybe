@@ -25,7 +25,6 @@ export default class Album extends React.Component {
     const nomeDoArtista = fetchMusics[0].artistName;
     // nda recebe o primeiro que mostrar com o id recebido
     const nomeDoAlbum = fetchMusics[0].collectionName;
-
     const songs = fetchMusics.filter((_, ids) => ids !== 0);
     // musicas filtra pelo id se o id for diferente de 0.
     this.setState({
@@ -41,8 +40,10 @@ export default class Album extends React.Component {
     this.setState({ loading: true }, async () => {
       await addSong(song);
       const fSongs = await getFavoriteSongs();
-      this.setState({ favorite: fSongs });
-      this.setState({ loading: false });
+      this.setState({
+        favorite: fSongs,
+        loading: false,
+      });
     });
   }
 
@@ -64,7 +65,7 @@ export default class Album extends React.Component {
           <MusicCard
             key={ ids }
             changeClick={ this.changeClick }
-            favMus={ favorite }
+            fSongs={ favorite }
             song={ songs }
             { ...songs }
             // trackName={ musicas.trackName }
