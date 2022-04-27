@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from './components/Header';
 import getMusics from './services/musicsAPI';
 import MusicCard from './components/MusicCard';
+import { addSong } from './services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -11,6 +12,7 @@ export default class Album extends React.Component {
       artist: '',
       albumName: '',
       albumSongs: [],
+      loading: false,
     };
   }
 
@@ -32,18 +34,33 @@ export default class Album extends React.Component {
     });
   }
 
+  changeClick = () => {
+    const { musica } = this.state;
+    this.setState({ loading: true }, async () => {
+      await addSong(musica);
+      this.setState({ loading: false });
+    });
+  }
+
   render() {
     const {
       artist,
       albumSongs,
       albumName,
+      loading,
     } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
         <p data-testid="artist-name">{`Artist: ${artist}`}</p>
         <p data-testid="album-name">{`Album: ${albumName}`}</p>
-        { albumSongs.map((musicas, ids) => <MusicCard key={ ids } { ...musicas } />) }
+        { albumSongs.map((musicas, ids) => (<MusicCard
+          key={ ids }
+          changeClick={ this.changeClick }
+          { ...musicas }
+        />
+        )) }
+        { loading && <p>Carregando...</p> }
       </div>
     );
   }

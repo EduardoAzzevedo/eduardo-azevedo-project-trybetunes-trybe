@@ -6,6 +6,8 @@ export default class MusicCard extends React.Component {
     const {
       trackName,
       previewUrl,
+      changeClick,
+      trackId,
     } = this.props;
 
     return (
@@ -17,6 +19,15 @@ export default class MusicCard extends React.Component {
           <code>audio</code>
           .
         </audio>
+        <label htmlFor="input-fav">
+          Favorita
+          <input
+            type="checkbox"
+            data-testid={ `checkbox-music-${trackId}` }
+            id="input-fav"
+            onChange={ changeClick }
+          />
+        </label>
       </div>
     );
   }
@@ -25,4 +36,6 @@ export default class MusicCard extends React.Component {
 MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
+  changeClick: PropTypes.func.isRequired,
+  trackId: PropTypes.number.isRequired,
 };
