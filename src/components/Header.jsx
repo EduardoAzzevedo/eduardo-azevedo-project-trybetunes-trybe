@@ -12,8 +12,8 @@ export default class Header extends React.Component {
   }
 
   async componentDidMount() {
-    const name = await getUser();
-    this.setState({ loading: false, userName: name.name });
+    const nome = await getUser();
+    this.setState({ loading: false, userName: nome.name });
   }
 
   render() {

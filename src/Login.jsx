@@ -27,7 +27,6 @@ export default class Login extends React.Component {
 
   buttonDisabled = () => {
     const { inputName } = this.state;
-    console.log(inputName.length);
     return (inputName.length > 1
       ? this.setState({ isDisabled: false })
       : this.setState({ isDisabled: true }));

@@ -8,7 +8,11 @@ export default class MusicCard extends React.Component {
       previewUrl,
       changeClick,
       trackId,
+      favMus,
+      musica,
     } = this.props;
+
+    const favoritList = favMus.some((musicas) => musicas.trackId === trackId);
 
     return (
       <div>
@@ -25,7 +29,8 @@ export default class MusicCard extends React.Component {
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             id="input-fav"
-            onChange={ changeClick }
+            onChange={ () => changeClick(musica) }
+            checked={ favoritList }
           />
         </label>
       </div>
@@ -38,4 +43,6 @@ MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   changeClick: PropTypes.func.isRequired,
   trackId: PropTypes.number.isRequired,
+  favMus: PropTypes.string.isRequired,
+  musica: PropTypes.objectOf(PropTypes.shape()).isRequired,
 };

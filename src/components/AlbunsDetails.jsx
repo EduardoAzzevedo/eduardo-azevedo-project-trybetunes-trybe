@@ -14,6 +14,7 @@ export default class AlbunsDetails extends React.Component {
       releaseDate,
       trackCount,
     } = this.props;
+
     return (
       <div>
         <p>{ `Artist ID: ${artistId}` }</p>

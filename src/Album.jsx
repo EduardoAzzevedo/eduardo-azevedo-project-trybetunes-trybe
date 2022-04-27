@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Header from './components/Header';
 import getMusics from './services/musicsAPI';
 import MusicCard from './components/MusicCard';
-import { addSong } from './services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from './services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -13,6 +13,7 @@ export default class Album extends React.Component {
       albumName: '',
       albumSongs: [],
       loading: false,
+      favorite: null,
     };
   }
 
@@ -25,19 +26,22 @@ export default class Album extends React.Component {
     // nda recebe o primeiro que mostrar com o id recebido
     const nomeDoAlbum = fetchMusics[0].collectionName;
 
-    const musicas = fetchMusics.filter((_, ids) => ids !== 0);
+    const songs = fetchMusics.filter((_, ids) => ids !== 0);
     // musicas filtra pelo id se o id for diferente de 0.
     this.setState({
       artist: nomeDoArtista,
       albumName: nomeDoAlbum,
-      albumSongs: musicas,
+      albumSongs: songs,
     });
+    const fSongs = await getFavoriteSongs();
+    this.setState({ favorite: fSongs });
   }
 
-  changeClick = () => {
-    const { musica } = this.state;
+  changeClick = (song) => {
     this.setState({ loading: true }, async () => {
-      await addSong(musica);
+      await addSong(song);
+      const fSongs = await getFavoriteSongs();
+      this.setState({ favorite: fSongs });
       this.setState({ loading: false });
     });
   }
@@ -48,17 +52,25 @@ export default class Album extends React.Component {
       albumSongs,
       albumName,
       loading,
+      favorite,
     } = this.state;
+
     return (
       <div data-testid="page-album">
         <Header />
         <p data-testid="artist-name">{`Artist: ${artist}`}</p>
         <p data-testid="album-name">{`Album: ${albumName}`}</p>
-        { albumSongs.map((musicas, ids) => (<MusicCard
-          key={ ids }
-          changeClick={ this.changeClick }
-          { ...musicas }
-        />
+        { favorite !== null && albumSongs.map((songs, ids) => (
+          <MusicCard
+            key={ ids }
+            changeClick={ this.changeClick }
+            favMus={ favorite }
+            song={ songs }
+            { ...songs }
+            // trackName={ musicas.trackName }
+            // previewUrl={ musicas.previewUrl }
+            // trackId={ musicas.trackId }
+          />
         )) }
         { loading && <p>Carregando...</p> }
       </div>
